@@ -1,0 +1,466 @@
+/* =============================================================
+   WhatsApp Pairing Website - style.css
+   Dark theme with neon-green accents, glassmorphism cards,
+   subtle animations, and full mobile/desktop responsiveness.
+   ============================================================= */
+
+:root {
+  --bg: #06090a;
+  --neon: #00ff9c;
+  --neon-soft: #00ff9c66;
+  --neon-dim: #00ff9c22;
+  --text-main: #eafff2;
+  --text-muted: #8fa89b;
+  --glass-bg: rgba(20, 28, 26, 0.55);
+  --glass-border: rgba(0, 255, 156, 0.18);
+  --danger: #ff5468;
+  --warning: #ffcf5c;
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-main);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* -------------------------------------------------------------
+   Ambient animated glow blobs in the background
+   ------------------------------------------------------------- */
+.bg-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-glow-1 {
+  width: 480px;
+  height: 480px;
+  background: var(--neon);
+  top: -160px;
+  left: -120px;
+  animation: float1 12s ease-in-out infinite;
+}
+
+.bg-glow-2 {
+  width: 420px;
+  height: 420px;
+  background: #00c2ff;
+  bottom: -140px;
+  right: -100px;
+  animation: float2 14s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(40px, 60px); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-50px, -40px); }
+}
+
+/* -------------------------------------------------------------
+   Page layout
+   ------------------------------------------------------------- */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  gap: 28px;
+}
+
+.brand {
+  text-align: center;
+}
+
+.brand-logo {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-accent {
+  color: var(--neon);
+  text-shadow: 0 0 18px var(--neon-soft);
+}
+
+.brand-subtitle {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 12px var(--neon);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+/* -------------------------------------------------------------
+   Glassmorphism card
+   ------------------------------------------------------------- */
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: cardIn 0.5s var(--transition);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.field-hint {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* -------------------------------------------------------------
+   Phone number field
+   ------------------------------------------------------------- */
+.phone-field {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 4px 4px 4px 16px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.phone-field:focus-within {
+  border-color: var(--neon);
+  box-shadow: 0 0 0 3px var(--neon-dim);
+}
+
+.phone-prefix {
+  color: var(--neon);
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 6px;
+}
+
+#phone-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  font-size: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 14px 12px;
+  letter-spacing: 0.03em;
+}
+
+#phone-input::placeholder {
+  color: #55685f;
+  font-size: 13px;
+}
+
+/* -------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------- */
+.btn-primary,
+.btn-secondary {
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 15px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-primary {
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--neon), #00c97a);
+  color: #04140c;
+  box-shadow: 0 6px 24px var(--neon-dim);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--neon-soft);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  margin-top: 6px;
+  background: transparent;
+  color: var(--neon);
+  border: 1px solid var(--neon-soft);
+}
+
+.btn-secondary:hover {
+  background: var(--neon-dim);
+}
+
+/* Loading spinner inside the primary button */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(4, 20, 12, 0.35);
+  border-top-color: #04140c;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* -------------------------------------------------------------
+   Status row
+   ------------------------------------------------------------- */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  animation: fadeIn var(--transition);
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.status-dot.connecting {
+  background: var(--warning);
+  box-shadow: 0 0 10px var(--warning);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.status-dot.waiting {
+  background: #4fc3ff;
+  box-shadow: 0 0 10px #4fc3ff;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.status-dot.connected {
+  background: var(--neon);
+  box-shadow: 0 0 10px var(--neon);
+}
+
+.status-dot.error {
+  background: var(--danger);
+  box-shadow: 0 0 10px var(--danger);
+}
+
+.status-text {
+  font-size: 13.5px;
+  color: var(--text-main);
+}
+
+/* -------------------------------------------------------------
+   Pairing code display
+   ------------------------------------------------------------- */
+.result-section {
+  margin-top: 18px;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 0.4s var(--transition);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pair-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--neon);
+  text-shadow: 0 0 22px var(--neon-soft);
+  background: rgba(0, 255, 156, 0.06);
+  border: 1px dashed var(--neon-soft);
+  border-radius: var(--radius-md);
+  padding: 18px 12px;
+  width: 100%;
+}
+
+.instructions {
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  line-height: 1.9;
+  padding-left: 20px;
+  margin: 10px 0 0;
+}
+
+.instructions strong {
+  color: var(--text-main);
+}
+
+/* -------------------------------------------------------------
+   QR code fallback
+   ------------------------------------------------------------- */
+.qr-wrap {
+  background: #ffffff08;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-wrap img {
+  width: 220px;
+  height: 220px;
+  border-radius: 8px;
+}
+
+/* -------------------------------------------------------------
+   Connected success state
+   ------------------------------------------------------------- */
+.success-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--neon-dim);
+  border: 1px solid var(--neon);
+  color: var(--neon);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px var(--neon-dim);
+  animation: pop 0.4s var(--transition);
+}
+
+@keyframes pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.success-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 4px 0 0;
+}
+
+/* -------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------- */
+.page-footer {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* -------------------------------------------------------------
+   Responsive tweaks
+   ------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .card {
+    padding: 26px 20px;
+    border-radius: 18px;
+  }
+
+  .pair-code {
+    font-size: 26px;
+    letter-spacing: 2px;
+  }
+
+  .brand-logo {
+    font-size: 26px;
+  }
+
+  .qr-wrap img {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (min-width: 900px) {
+  .card {
+    max-width: 460px;
+    padding: 40px 36px;
+  }
+}
